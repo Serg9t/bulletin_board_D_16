@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="card mb-3">
+    <div class="card-header">
+        <h2>{{ post.title }}</h2>
+    </div>
+    <div class="card-body">
+        {% if post.photo %}
+        <img src="{{ post.content_media.url }}" alt="" width="350" class="float-left mr-3">
+        {% else %}
+        <img src="/media/users/default.jpg" alt="" class="float-left mr-3">
+        {% endif %}
+
+        <p class="card-text">{{ post.description|safe|linebreaks }}</p>
+
+    </div>
+    <div class="class-footer text-muted">
+        {{ post.time_create|date:"Y-m-d H:i:s" }}
+        <br>
+        Автор: {{ post.author }}
+    </div>
+    <div class="card-footer">
+        {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'update_post' pk=post.id %}">Изменить | </a>
+        {% endif %}
+        {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'delete_post' pk=post.id %}">Удалить</a>
+        {% endif %}
+        <br>
+        {% if user.is_authenticated and user != post.author %}
+        <a href="{% url 'add_response' pk=post.id %}">Оставить отклик</a>
+        {% endif %}
+
+        <br>
+        {% if user.is_authenticated %}
+        <a href="{% url 'list_response' post.id %}">Смотреть отклики</a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

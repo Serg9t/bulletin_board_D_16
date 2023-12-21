@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+
+{% for resp in responses %}
+
+{% if user.is_authenticated and user == post.author %}
+    {% if resp.status %}
+    <p>{{ resp.text }}</p>
+    {% else %}
+        {{ resp.text }}
+        <p><a href="{% url 'accept_response' resp.pk %}">Принять</a> | <a href="{% url 'delete_response' resp.pk %}">Отклонить</a></p>
+    {% endif %}
+{% endif %}
+
+{% if user.is_authenticated and user != post.author %}
+{% if resp.status %}
+<p>{{ resp.text }}</p>
+{% endif %}
+{% endif %}
+
+{% endfor %}
+
+
+
+
+{% endblock %}

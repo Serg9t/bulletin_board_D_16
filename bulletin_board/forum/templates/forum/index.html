@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    {% for item in posts %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>{{ item.title }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="media">
+                {% if item.content_media %}
+                <img src="{{ item.content_media.url }}" alt="" width="350" class="mr-3">
+                {% else %}
+                <img src="/media/users/default.jpg" alt="" class="mr-3">
+                {% endif %}
+                <div class="media-body">
+                    <p class="card-text">{{ item.description|safe|linebreaks|truncatewords:50 }}</p>
+                    <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more...</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer text-muted">
+            {{ item.time_create|date:"Y-m-d H:i:s" }}
+            <br>
+            Автор: {{ item.author }}
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+{% block paginator %}
+{% include 'inc/pagination.html' %}
+{% endblock %}
